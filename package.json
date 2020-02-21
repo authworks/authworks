@@ -29,7 +29,6 @@
   },
   "private": true,
   "dependencies": {
-    "@nrwl/angular": "9.0.2",
     "@angular/animations": "9.0.0",
     "@angular/common": "9.0.0",
     "@angular/compiler": "9.0.0",
@@ -38,13 +37,23 @@
     "@angular/platform-browser": "9.0.0",
     "@angular/platform-browser-dynamic": "9.0.0",
     "@angular/router": "9.0.0",
-    "core-js": "^2.5.4",
-    "rxjs": "~6.5.0",
-    "zone.js": "^0.10.2",
     "@nestjs/common": "^6.8.3",
     "@nestjs/core": "^6.8.3",
+    "@nestjs/jwt": "^6.1.1",
+    "@nestjs/passport": "^6.2.0",
     "@nestjs/platform-express": "^6.8.3",
-    "reflect-metadata": "^0.1.13"
+    "@nestjs/swagger": "^4.2.12",
+    "@nestjs/typeorm": "^6.3.3",
+    "@nrwl/angular": "9.0.2",
+    "core-js": "^2.5.4",
+    "express-winston": "^4.0.3",
+    "passport-jwt": "^4.0.0",
+    "pg": "^7.18.2",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "~6.5.0",
+    "typeorm": "^0.2.22",
+    "winston": "^3.2.1",
+    "zone.js": "^0.10.2"
   },
   "devDependencies": {
     "@angular/cli": "9.0.1",
@@ -70,6 +79,7 @@
     "@nrwl/cypress": "9.0.2",
     "@nrwl/node": "9.0.2",
     "@nestjs/schematics": "^6.7.0",
-    "@nestjs/testing": "^6.8.3"
+    "@nestjs/testing": "^6.8.3",
+    "utility-types": "^3.10.0"
   }
 }

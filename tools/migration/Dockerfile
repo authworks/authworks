@@ -1,0 +1,8 @@
+FROM kilna/liquibase-postgres
+
+#ENV LIQUIBASE_HOST=
+#ENV LIQUIBASE_DATABASE=
+#ENV LIQUIBASE_USERNAME=
+#ENV LIQUIBASE_PASSWORD=
+
+COPY changelog.xml /workspace

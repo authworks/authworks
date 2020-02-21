@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+  <preConditions>
+    <dbms type="postgresql"/>
+  </preConditions>
+
+  <changeSet id="1" author="chao.yang">
+    <createTable tableName="asset_type">
+      <column name="name" type="varchar">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="display_name" type="varchar" />
+    </createTable>
+
+    <sql>
+      INSERT INTO asset_type (name, display_name) VALUES
+      ('story', 'Story'),
+      ('image', 'Image'),
+      ('video', 'Video'),
+      ('widget', 'Widget');
+    </sql>
+  </changeSet>
+
+  <changeSet id="2" author="chao.yang">
+    <createTable tableName="asset_sub_type">
+      <column name="name" type="varchar">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="display_name" type="varchar"/>
+      <column name="asset_type" type="varchar">
+        <constraints nullable="false" foreignKeyName="fk_asset_sub_type__asset_type" references="asset_type(name)" />
+      </column>
+    </createTable>
+
+    <sql>
+      <![CDATA[
+      INSERT INTO asset_sub_type (name, display_name, asset_type) VALUES
+      ('generic', 'Generic', 'story'),
+      ('opinion', 'Opinion', 'story'),
+      ('editorial', 'Editorial', 'story'),
+      ('review', 'Review', 'story'),
+      ('longform', 'Long form', 'story'),
+      ('how-to', 'How to', 'story'),
+      ('photograph', 'Photograph', 'image'),
+      ('cartoon', 'Cartoon', 'image'),
+      ('illustration', 'Illustration', 'image'),
+      ('decoration', 'Decoration', 'image'),
+      ('stock-image', 'Stock Image', 'image'),
+      ('social', 'Social', 'video'),
+      ('programme', 'Programme', 'video'),
+      ('advertisement', 'Advertisement', 'video'),
+      ('html', 'HTML', 'widget');
+      ]]>
+    </sql>
+  </changeSet>
+
+  <changeSet id="3" author="chao.yang">
+    <createTable tableName="flag">
+      <column name="name" type="varchar">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="display_name" type="varchar"/>
+    </createTable>
+
+    <sql>
+      <![CDATA[
+      INSERT INTO flag (name, display_name) VALUES
+      ('CONTENT_WARNING', 'Content warning'),
+      ('CONTENT_SPOILERS', 'Content spoilers'),
+      ('EXCLUSIVE', 'Exclusive');
+      ]]>
+    </sql>
+  </changeSet>
+
+  <changeSet id="4" author="chao.yang">
+    <createTable tableName="ad_exclusion">
+      <column name="name" type="varchar">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="display_name" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <sql>
+      <![CDATA[
+      INSERT INTO ad_exclusion (name, display_name) VALUES
+      ('TRAVEL_INCIDENT', 'Travel Incident'),
+      ('AUTOMOTIVE_INCIDENT', 'Automotive Incident'),
+      ('FINANCIAL', 'Financial'),
+      ('FIRE', 'Fire'),
+      ('AIRCRAFT', 'Aircraft'),
+      ('NATURAL_DISASTER', 'Natural Disaster'),
+      ('TERRORISM', 'Terrorism'),
+      ('SENSITIVE_CONTENT', 'Sensitive Content'),
+      ('INDUSTRIAL_DISASTER', 'Industrial Disaster'),
+      ('CHARITY', 'Charity');
+      ]]>
+    </sql>
+  </changeSet>
+
+  <changeSet id="5" author="chao.yang">
+    <createTable tableName="source">
+      <column name="name" type="varchar">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="display_name" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <sql>
+      <![CDATA[
+      INSERT INTO source (name, display_name) VALUES
+      ('businessday-com-au', 'BusinessDay.com.au'),
+      ('Los-Angeles-Times', 'Los Angeles Times'),
+      ('Central-Districts-Farmer', 'Central Districts Farmer'),
+      ('AFR-Contributor', 'AFR Contributor'),
+      ('SMH-reader', 'SMH-reader'),
+      ('brisbanetimes-com-au', 'brisbanetimes.com.au'),
+      ('Sponsored-content', 'Sponsored content'),
+      ('Scientific-American', 'Scientific American'),
+      ('NZ-House-Garden', 'NZ House & Garden'),
+      ('New-York-Review-of-Books', 'New York Review of Books'),
+      ('blank', 'Blank'),
+      ('PopSugar-com-au', 'PopSugar.com.au'),
+      ('The-Telegraph_London', 'The Telegraph, London'),
+      ('The-Dominion-Post', 'The Dominion Post'),
+      ('TV-Guide', 'TV Guide'),
+      ('PA', 'PA'),
+      ('NCH-Contributor', 'NCH Contributor'),
+      ('Hauraki-Herald', 'Hauraki Herald'),
+      ('Computerworld', 'Computer World'),
+      ('Avenues', 'Avenues'),
+      ('Kotaku-com-au', 'Kotaku.com.au'),
+      ('mycareer-com-au', 'mycareer.com.au'),
+      ('The-New-York-Times', 'The New York Times'),
+      ('North-Waikato-News', 'North Waikato News'),
+      ('Wairarapa-News', 'Wairarapa News'),
+      ('AGE-Contributor', 'AGE Contributor'),
+      ('weatherzone-com-au', 'weatherzone.com.au'),
+      ('Matamata-Chronicle', 'Matamata Chronicle'),
+      ('Stuff-Production', 'Stuff Production'),
+      ('The-Sun-Herald', 'The Sun-Herald'),
+      ('The-Wellingtonian', 'The Wellingtonian'),
+      ('BRW', 'BRW'),
+      ('Email', 'Email'),
+      ('The-Cut', 'The Cut'),
+      ('BusinessDay-co-nz', 'BusinessDay.co.nz'),
+      ('Washington-Post', 'Washington Post'),
+      ('Ponies', 'Ponies'),
+      ('Franklin-County-News', 'Franklin County News'),
+      ('The-Southland-Times', 'The Southland Times'),
+      ('Feilding-Herald', 'Feilding Herald'),
+      ('Jennian-Homes', 'Jennian Homes'),
+      ('Essential-Mums', 'Essential Mums'),
+      ('Bloomberg', 'Bloomberg'),
+      ('Harvard-Business-Review', 'Harvard Business Review'),
+      ('AP-Digital', 'AP Digital'),
+      ('Eastern-Courier', 'Eastern Courier'),
+      ('The-Timaru-Herald', 'The Timaru Herald'),
+      ('Stuff-Nation', 'Stuff Nation'),
+      ('Waikato-Times', 'Waikato Times'),
+      ('HB-Country-Scene', 'HB Country Scene'),
+      ('Letters', 'Letters'),
+      ('essentialkids-com-au', 'essentialkids.com.au'),
+      ('thebigchair-com-au', 'thebigchair.com.au'),
+      ('The-West-Australian', 'The West Australian'),
+      ('BusinessInsider-com-au', 'BusinessInsider.com.au'),
+      ('AAP-hidden', 'AAP hidden'),
+      ('Illawarra-Mercury', 'Illawarra Mercury'),
+      ('AP', 'AP'),
+      ('AAP', 'AAP'),
+      ('Cambridge-Edition', 'Cambridge Edition'),
+      ('Northern-News', 'Northern News'),
+      ('The-Telegraph', 'The Telegraph'),
+      ('Weekend-Magazine', 'Weekend Magazine'),
+      ('Not-For-Syndication', 'Not For Syndication'),
+      ('FCN-Victoria', 'FCN Victoria'),
+      ('homepriceguide-com-au', 'homepriceguide.com.au'),
+      ('Kapi-Mana-News', 'Kapi-Mana News'),
+      ('The-Mirror', 'The Mirror'),
+      ('Hutt-News', 'Hutt News'),
+      ('NZ-Horse-Pony', 'NZ Horse & Pony'),
+      ('Rotorua-Review', 'Rotorua Review'),
+      ('Reuters', 'Reuters'),
+      ('apm-com-au', 'apm.com.au'),
+      ('Gizmodo-com-au', 'Gizmodo.com.au'),
+      ('Horowhenua-Mail', 'Horowhenua Mail'),
+      ('Cover-Media', 'Cover Media'),
+      ('c-Fairfax-NZ-News', '(c) Fairfax NZ News'),
+      ('fashion-quarterly', 'Fashion Quarterly'),
+      ('BT-reader', 'BT-reader'),
+      ('ASX', 'ASX'),
+      ('Financial-Times', 'Financial Times'),
+      ('The-Age-reader', 'The Age-reader'),
+      ('Promoted-Content', 'Promoted Content'),
+      ('NZ-Gardener', 'NZ Gardener'),
+      ('noted', 'Noted'),
+      ('The-Independent', 'The Independent'),
+      ('Auckland-City-Harbour-News', 'Auckland City Harbour News'),
+      ('Cuisine', 'Cuisine'),
+      ('Foreign-Policy', 'Foreign Policy'),
+      ('Southland', 'Southland'),
+      ('Blank', 'Blank'),
+      ('moneymanager-com-au', 'moneymanager.com.au'),
+      ('Travel', 'Travel'),
+      ('Taranaki-Daily-News', 'Taranaki Daily News'),
+      ('Standpoint', 'Standpoint'),
+      ('bigpond-domain-com-au', 'bigpond.domain.com.au'),
+      ('The-Standard_Warrnambool', 'The Standard, Warrnambool'),
+      ('Western-Leader', 'Western Leader'),
+      ('Good-Pub-Guide', 'Good Pub Guide'),
+      ('Piako-Post', 'Piako Post'),
+      ('Stuff', 'Stuff'),
+      ('mashable-com', 'Mashable.com'),
+      ('Waiheke-Marketplace', 'Waiheke Marketplace'),
+      ('smh-com-au', 'smh.com.au'),
+      ('dailylife-com-au', 'dailylife.com.au'),
+      ('SurfAutsralia', 'SurfAutsralia'),
+      ('food-to-love', 'Food to Love'),
+      ('Otago-Southland-Farmer', 'Otago Southland Farmer'),
+      ('Dargaville-News', 'Dargaville News'),
+      ('Manawatu', 'Manawatu'),
+      ('Christchurch-Press', 'Christchurch Press'),
+      ('Agencies', 'Agencies'),
+      ('Rangitikei-Mail', 'Rangitikei Mail'),
+      ('NZPA', 'NZPA'),
+      ('Live-Matches', 'Live Matches'),
+      ('Auckland-Now', 'Auckland Now'),
+      ('Manukau-Courier', 'Manukau Courier'),
+      ('Nelson', 'Nelson'),
+      ('Central-Leader', 'Central Leader'),
+      ('business-gov', 'business.gov'),
+      ('NZ-Lifestyle-Block', 'NZ Lifestyle Block'),
+      ('investsmart-com-au', 'investsmart.com.au'),
+      ('The-Washington-Post', 'The Washington Post'),
+      ('North-Shore-Times', 'North Shore Times'),
+      ('Foreign-Affairs', 'Foreign Affairs'),
+      ('Atlantic', 'Atlantic'),
+      ('FabSugar-com-au', 'FabSugar.com.au'),
+      ('Canberra-Times', 'Canberra Times'),
+      ('AFP', 'AFP'),
+      ('AFR', 'AFR'),
+      ('MER-Contributor', 'MER Contributor'),
+      ('2ue-com-au', '2ue.com.au'),
+      ('Fish-Game', 'Fish & Game'),
+      ('The-Hastings-Mail', 'The Hastings Mail'),
+      ('The-Newcastle-Herald', 'The Newcastle Herald'),
+      ('rsvp-com-au', 'rsvp.com.au'),
+      ('NZ-Life-Leisure', 'NZ Life & Leisure'),
+      ('World-Magazine', 'World Magazine'),
+      ('now-to-love', 'Now to Love'),
+      ('canberratimes-com-au', 'canberratimes.com.au'),
+      ('Gameplanet', 'Gameplanet'),
+      ('North-Harbour-News', 'North Harbour News'),
+      ('Cox-News-Service', 'Cox News Service'),
+      ('3aw-com-au', '3aw.com.au'),
+      ('Prospect', 'Prospect'),
+      ('homes-to-love', 'Homes to Love'),
+      ('NewsLink', 'NewsLink'),
+      ('Good-Bar-Guide', 'Good Bar Guide'),
+      ('The-Guardian', 'The Guardian'),
+      ('Food-And-Wine', 'Food And Wine'),
+      ('The-Age', 'The Age'),
+      ('The-Japan-News', 'The Japan News'),
+      ('watoday-com-au', 'watoday.com.au'),
+      ('Horoscope', 'Horoscope'),
+      ('New-Statesman', 'New Statesman'),
+      ('Lonely-Planet', 'Lonely Planet'),
+      ('Sydney-Morning-Herald', 'Sydney Morning Herald'),
+      ('Good-Food-Guide', 'Good Food Guide'),
+      ('Autocar', 'Autocar'),
+      ('beauty-heaven', 'Beauty Heaven'),
+      ('essentialbaby-com-au', 'essentialbaby.com.au'),
+      ('theage-com-au', 'theage.com.au'),
+      ('The-Manawatu-Standard', 'The Manawatu Standard'),
+      ('Dominion-Post', 'Dominion Post'),
+      ('Stuff-co-nz', 'Stuff.co.nz'),
+      ('Norwest-News', 'Norwest News'),
+      ('Wellington', 'Wellington'),
+      ('goodfood-com-au', 'goodfood.com.au'),
+      ('The-Root', 'The Root'),
+      ('Newcastle-Herald', 'Newcastle Herald'),
+      ('NZ-Trucking', 'NZ Trucking'),
+      ('Lifehacker-com-au', 'Lifehacker.com.au'),
+      ('Sunday-Telegraph', 'Sunday Telegraph'),
+      ('Fishing-News', 'Fishing News'),
+      ('SMH', 'SMH'),
+      ('The-Marlborough-Express', 'The Marlborough Express'),
+      ('magic1278-com-au', 'magic1278.com.au'),
+      ('D-Scene', 'D Scene'),
+      ('Slate', 'Slate'),
+      ('DPA', 'DPA'),
+      ('nationaltimes-com-au', 'nationaltimes.com.au'),
+      ('Sun-Herald', 'Sun-Herald'),
+      ('Economist', 'Economist'),
+      ('ADNZ', 'ADNZ'),
+      ('FCN-NSW', 'FCN NSW'),
+      ('Brisbane-Times', 'Brisbane Times'),
+      ('Motoring', 'Motoring'),
+      ('4bc-com-au', '4bc.com.au'),
+      ('Blogger', 'Blogger'),
+      ('Kyodo', 'Kyodo'),
+      ('FDC', 'FDC'),
+      ('Law4U', 'Law4U'),
+      ('Sunday-News', 'Sunday News'),
+      ('Newsroom', 'Newsroom'),
+      ('SMH-Contributor', 'SMH Contributor'),
+      ('Christian-Science-Monitor', 'Christian Science Monitor'),
+      ('Fairfax-Contributor', 'Fairfax Contributor'),
+      ('Auckland', 'Auckland'),
+      ('Taupo-Times', 'Taupo Times'),
+      ('Whangarei-Leader', 'Whangarei Leader'),
+      ('domain-com-au', 'domain.com.au'),
+      ('Boating-NZ', 'Boating NZ'),
+      ('Central-District-Times', 'Central District Times'),
+      ('6pr-com-au', '6pr.com.au'),
+      ('iStock', 'iStock'),
+      ('Fairfax-Production', 'Fairfax Production'),
+      ('4bh-com-au', '4bh.com.au'),
+      ('BusinessDay', 'BusinessDay'),
+      ('drive-com-au', 'drive.com.au'),
+      ('Homed', 'Homed'),
+      ('ooyala-com', 'ooyala.com'),
+      ('None', 'None'),
+      ('Invercargill-Eye', 'Invercargill Eye'),
+      ('MCT', 'MCT'),
+      ('Kaikoura-Star', 'Kaikoura Star'),
+      ('The-Nelson-Mail', 'The Nelson Mail'),
+      ('Rodney-Times', 'Rodney Times'),
+      ('Fairfax Production', 'Fairfax Production'),
+      ('BellaSugar-com-au', 'BellaSugar.com.au'),
+      ('Hamilton-Press', 'Hamilton Press'),
+      ('findababysitter-com-au', 'findababysitter.com.au'),
+      ('The-Press', 'The Press'),
+      ('Getty-Images', 'Getty Images'),
+      ('User-submitted', 'User submitted'),
+      ('Bay-Chronicle', 'Bay Chronicle'),
+      ('Sunday-Magazine', 'Sunday Magazine'),
+      ('Taieri-Herald', 'Taieri Herald'),
+      ('Stuff-Contributor', 'Stuff Contributor'),
+      ('Kapiti-Observer', 'Kapiti Observer'),
+      ('The-Bay-Chronicle', 'The Bay Chronicle'),
+      ('Clutha-Leader', 'Clutha Leader'),
+      ('Technology', 'Technology'),
+      ('thevine-com-au', 'thevine.com.au'),
+      ('Papakura-Courier', 'Papakura Courier'),
+      ('ScienceNOW', 'ScienceNOW'),
+      ('Manawatu-Standard', 'Manawatu Standard'),
+      ('The-Napier-Mail', 'The Napier Mail'),
+      ('Upper-Hutt-Leader', 'Upper Hutt Leader'),
+      ('ChampionData', 'ChampionData'),
+      ('stayz-com-au', 'stayz.com.au'),
+      ('Harpers', 'Harpers'),
+      ('The-Sunday-Age', 'The Sunday Age'),
+      ('Your-Weekend', 'Your Weekend'),
+      ('East-And-Bays-Courier', 'East And Bays Courier'),
+      ('Fairfax-Media-Australia', 'Fairfax Media Australia'),
+      ('South-Waikato-News', 'South Waikato News'),
+      ('Palazzo', 'Palazzo'),
+      ('Good-Cafe-Guide', 'Good Cafe Guide'),
+      ('Sunday-Star-Times', 'Sunday Star Times'),
+      ('DA-Lewis', 'DA Lewis'),
+      ('NZ-Infotech-weekly', 'NZ Infotech weekly');
+      ]]>
+    </sql>
+  </changeSet>
+
+  <changeSet id="6" author="chao.yang">
+    <createTable tableName="topic">
+      <column name="id" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="path" type="varchar"/>
+      <column name="parent_topic_id" type="int">
+        <constraints nullable="true" foreignKeyName="fk_topic__parent_topic_id" references="topic(id)"/>
+      </column>
+    </createTable>
+
+    <sql>
+      INSERT INTO topic (id, path, parent_topic_id) VALUES
+      (1, 'technology', null),
+      (2, 'digital-living', 1),
+      (3, 'the-takeover', 2),
+      (4, 'gadgets', 1),
+      (5, 'games', 1),
+      (6, 'social-networking', 1),
+      (7, 'apps', 1),
+      (8, 'snapchat', 1),
+      (9, 'instagram', 1),
+      (10, 'world', null),
+      (11, 'australia', 10),
+      (12, 'americas', 10),
+      (13, 'florida-nightclub-shooting', 12),
+      (14, 'us-election-2016', 12),
+      (15, 'donald-trumps-america', 12),
+      (16, 'europe', 10),
+      (17, 'brexit-2016', 16),
+      (18, 'middle-east', 10),
+      (19, 'asia', 10),
+      (20, 'africa', 10),
+      (21, 'south-pacific', 10),
+      (22, 'paris-attacks', 10),
+      (23, 'brussels-attacks', 10),
+      (24, 'travel', null),
+      (25, 'destinations', 24),
+      (26, 'nz', 25),
+      (27, 'australia', 25),
+      (28, 'pacific-islands', 25),
+      (29, 'uk-and-ireland', 25),
+      (30, 'europe', 25),
+      (31, 'germany', 30),
+      (32, 'france', 30),
+      (33, 'italy', 30),
+      (34, 'hawaii', 25),
+      (35, 'usa', 25),
+      (36, 'south-america', 25),
+      (37, 'asia', 25),
+      (38, 'africa', 25),
+      (39, 'middle-east', 25),
+      (40, 'canada-alaska', 25),
+      (41, 'themes', 24),
+      (42, 'beaches', 41),
+      (43, 'family', 41),
+      (44, 'budget', 41),
+      (45, 'adventure', 41),
+      (46, 'couples', 41),
+      (47, 'luxury', 41),
+      (48, 'food', 41),
+      (49, 'short-breaks', 41),
+      (50, 'news', 24),
+      (51, 'buy-this-beach', 50),
+      (52, 'travel-troubles', 24),
+      (53, 'cruising', 24),
+      (54, 'snow', 24),
+      (55, 'kiwi-traveller', 24),
+      (56, 'ask-an-expert', 55),
+      (57, 'life-style', null),
+      (58, 'food-wine', 57),
+      (59, 'cuisine', 58),
+      (60, 'competitions', 59),
+      (61, 'food-news', 58),
+      (62, 'drinks', 58),
+      (63, 'josh-emett', 58),
+      (64, 'recipes', 58),
+      (65, 'reviews', 58),
+      (66, 'home-property', 57),
+      (67, 'nz-house-garden', 66),
+      (68, 'competitions', 67),
+      (69, 'nz-gardener', 66),
+      (70, 'competitions', 69),
+      (71, 'house-of-the-week', 66),
+      (72, 'smart-living', 66),
+      (73, 'nz-life-leisure', 57),
+      (74, 'competitions', 73),
+      (75, 'sleepyhead', 73),
+      (76, 'world', 57),
+      (77, 'well-good', 57),
+      (78, 'teach-me', 77),
+      (79, 'motivate-me', 77),
+      (80, 'inspire-me', 77),
+      (81, 'fashion', 57),
+      (82, 'beauty', 57),
+      (83, 'how-to-guides', 82),
+      (84, 'product-reviews', 82),
+      (85, 'cutestuff', 57),
+      (86, 'weddings', 57),
+      (87, 'weddings-of-the-week', 86),
+      (88, 'love-sex', 57),
+      (89, 'sex-mis-education', 88),
+      (90, 'life', 57),
+      (91, 'luxury', 57),
+      (92, 'christmas', 57),
+      (93, 'parenting', 57),
+      (94, 'baby', 93),
+      (95, 'development', 94),
+      (96, 'caring-for-baby', 94),
+      (97, 'breastfeeding', 94),
+      (98, 'pregnancy', 93),
+      (99, 'conception', 98),
+      (100, 'expecting', 98),
+      (101, 'birth', 98),
+      (102, 'little-kids', 93),
+      (103, 'toddler', 102),
+      (104, 'preschool', 102),
+      (105, 'big-kids', 93),
+      (106, 'five-to-ten', 105),
+      (107, 'tweens-to-teens', 105),
+      (108, 'family-life', 93),
+      (109, 'mums-life', 93),
+      (110, 'puzzles', 57),
+      (111, 'choose-with-confidence', 57),
+      (112, 'four-legs-good', 57),
+      (113, 'homed', 57),
+      (114, 'kitchen', 113),
+      (115, 'bathroom', 113),
+      (116, 'bedroom', 113),
+      (117, 'living', 113),
+      (118, 'garden', 113),
+      (119, 'latest', 113),
+      (120, 'decor', 113),
+      (121, 'community', 113),
+      (122, 'other-spaces', 113),
+      (123, 'how-to', 113),
+      (124, 'houses', 113),
+      (125, 'celebrity-homes', 113),
+      (126, 'renovations', 113),
+      (127, 'the-high-life', 113),
+      (128, 'plan-bee', 113),
+      (129, 'homed-series', 113),
+      (130, 'the-block-nz', 113),
+      (131, 'life-style-top-stories', 57),
+      (132, 'now-to-love', 57),
+      (133, 'womans-day', 132),
+      (134, 'australian-womens-weekly', 132),
+      (135, 'womans-weekly', 132),
+      (136, 'next', 132),
+      (137, 'nadia', 132),
+      (138, 'lucky-break', 132),
+      (139, 'food-to-love', 57),
+      (140, 'food', 139),
+      (141, 'taste', 139),
+      (142, 'fashion-quarterly', 57),
+      (143, 'beauty-heaven', 57),
+      (144, 'homes-to-love', 57),
+      (145, 'your-home-and-garden', 144),
+      (146, 'simply-you', 144),
+      (147, 'home-nz', 144),
+      (148, 'motoring', null),
+      (149, 'nz-trucking', 148),
+      (150, 'road-tests', 148),
+      (151, 'bikes', 148),
+      (152, 'lifestyle-vehicles', 148),
+      (153, 'shows', 148),
+      (154, 'customs-classics', 148),
+      (155, 'news', 148),
+      (156, 'buying-a-used-car', 148),
+      (157, 'top-cars', 148),
+      (158, 'trends-in-suvs-and-vans', 148),
+      (159, 'motoring-top-stories', 148),
+      (160, 'sport', null),
+      (161, 'golf', 160),
+      (162, 'fishing', 160),
+      (163, 'fish-game', 162),
+      (164, 'opinion', 160),
+      (165, 'cricket', 160),
+      (166, 'tennis', 160),
+      (167, 'league', 160),
+      (168, 'netball', 160),
+      (169, 'basketball', 160),
+      (170, 'motorsport', 160),
+      (171, 'racing', 160),
+      (172, 'football', 160),
+      (173, 'nz-teams', 172),
+      (174, 'world-game', 172),
+      (175, 'domestic', 172),
+      (176, 'a-league', 172),
+      (177, 'rugby', 160),
+      (178, 'provincial', 177),
+      (179, 'international', 177),
+      (180, 'super-rugby', 177),
+      (181, 'all-blacks', 177),
+      (182, 'opinion', 177),
+      (183, 'sevens', 177),
+      (184, 'history', 177),
+      (185, 'teams', 177),
+      (186, 'abs-squad', 177),
+      (187, 'rwc-moments', 177),
+      (188, 'rugby-live-stream', 177),
+      (189, 'jonah-lomu', 177),
+      (190, 'local-rugby', 177),
+      (191, 'other-sports', 160),
+      (192, 'boating', 160),
+      (193, 'fish-game', 160),
+      (194, 'the-fumble', 160),
+      (195, 'olympics', 160),
+      (196, 'nz-olympic-team', 195),
+      (197, 'scores', 160),
+      (198, 'combat-sports', 160),
+      (199, 'ping-pong', 160),
+      (200, 'business', null),
+      (201, 'farming', 200),
+      (202, 'dairy', 201),
+      (203, 'beef', 201),
+      (204, 'sheep', 201),
+      (205, 'cropping', 201),
+      (206, 'agribusiness', 201),
+      (207, 'markets', 201),
+      (208, 'advice', 201),
+      (209, 'opinion', 201),
+      (210, 'aquaculture', 201),
+      (211, 'rural-women', 201),
+      (212, 'fieldays', 201),
+      (213, 'discovery', 201),
+      (214, 'world', 200),
+      (215, 'industries', 200),
+      (216, 'money', 200),
+      (217, 'opinion-analysis', 200),
+      (218, 'better-business', 200),
+      (219, 'women-of-influence', 200),
+      (220, 'luxury', 200),
+      (221, 'small-business', 200),
+      (222, 'budget-2015', 200),
+      (223, 'our-backyard', 200),
+      (224, 'transforming-business', 200),
+      (225, 'budget-2016', 200),
+      (226, 'property', 200),
+      (227, 'blowing-bubbles', 226),
+      (228, 'innovation', 200),
+      (229, 'the-receipt', 200),
+      (230, 'inside-business', 200),
+      (231, 'business-top-stories', 200),
+      (232, 'entertainment', null),
+      (233, 'tv-radio', 232),
+      (234, 'tv-guide', 233),
+      (235, 'tv-guide-competitions', 234),
+      (236, 'film', 232),
+      (237, 'film-reviews', 236),
+      (238, 'dvd-reviews', 236),
+      (239, 'film-festival-2015', 236),
+      (240, 'music', 232),
+      (241, 'album-reviews', 240),
+      (242, 'gig-reviews', 240),
+      (243, 'simon-sweetman', 240),
+      (244, 'books', 232),
+      (245, 'celebrities', 232),
+      (246, 'arts', 232),
+      (247, 'stage-and-theatre', 232),
+      (248, 'david-bowie', 232),
+      (249, 'games', 232),
+      (250, 'entertainment-top-stories', 232),
+      (251, 'national', null),
+      (252, 'politics', 251),
+      (253, 'opinion', 252),
+      (254, 'beehive-live', 252),
+      (255, 'local-body-elections', 252),
+      (256, 'education', 251),
+      (257, 'school-report', 256),
+      (258, 'foot-it', 256),
+      (259, 'crime', 251),
+      (260, 'health', 251),
+      (261, 'euthanasia-debate', 260),
+      (262, 'last-post-first-light', 251),
+      (263, 'women-of-influence', 251),
+      (264, 'maori-language-week', 251),
+      (265, 'the-flag-debate', 251),
+      (266, 'bag-a-prize', 251),
+      (267, 'good-sports', 251),
+      (268, 'faces-of-innocents', 251),
+      (269, 'nz-earthquake', 251),
+      (270, 'faultlines', 251),
+      (271, 'stuff-circuit', 251),
+      (272, 'last-of-the-few', 251),
+      (273, 'one-in-five-million', 251),
+      (274, 'newsroom-co-nz', 251),
+      (275, 'noted', 251),
+      (276, 'north-south', 275),
+      (277, 'metro', 275),
+      (278, 'listener', 275),
+      (279, 'science', null),
+      (280, 'environment', null),
+      (281, 'climate-news', 280),
+      (282, 'wasp-wipeout', 280),
+      (283, 'oddstuff', null),
+      (284, 'good-reads', null),
+      (285, 'dominion-post', null),
+      (286, 'business', 285),
+      (287, 'commercial-property', 286),
+      (288, 'residential-property', 286),
+      (289, 'sport', 285),
+      (290, 'college-sport', 289),
+      (291, 'promotions', 285),
+      (292, 'competitions', 291),
+      (293, 'the-wellys', 291),
+      (294, 'wellington', 285),
+      (295, 'comment', 285),
+      (296, 'editorials', 295),
+      (297, 'letters-to-the-editor', 295),
+      (298, 'columnists', 295),
+      (299, 'culture', 285),
+      (300, 'puzzles', 299),
+      (301, 'crossword-solutions', 300),
+      (302, 'print-edition', 285),
+      (303, 'news', 285),
+      (304, 'politics', 303),
+      (305, 'local-papers', 303),
+      (306, 'hutt-news', 305),
+      (307, 'the-wellingtonian', 305),
+      (308, 'wairarapa-news', 305),
+      (309, 'kapi-mana-news', 305),
+      (310, 'upper-hutt-leader', 305),
+      (311, 'kapiti-observer', 305),
+      (312, 'horowhenua-mail', 305),
+      (313, 'hawkes-bay-sun', 305),
+      (314, 'wellington', 303),
+      (315, 'porirua', 303),
+      (316, 'hutt-valley', 303),
+      (317, 'kapiti', 303),
+      (318, 'wairarapa', 303),
+      (319, 'hawkes-bay', 303),
+      (320, 'capital-life', 285),
+      (321, 'cafe-scene', 320),
+      (322, 'cafe-reviews', 321),
+      (323, 'restaurant-reviews', 320),
+      (324, 'capital-day', 320),
+      (325, 'christmas-2014', 320),
+      (326, 'information', 285),
+      (327, 'wellington-top-stories', 285),
+      (328, 'taranaki-daily-news', null),
+      (329, 'sport', 328),
+      (330, 'lifestyle', 328),
+      (331, 'opinion', 328),
+      (332, 'news', 328),
+      (333, 'midweek', 332),
+      (334, 'your-taranaki', 332),
+      (335, 'south-taranaki-star', 332),
+      (336, 'manawatu-standard', null),
+      (337, 'sport', 336),
+      (338, 'lampps-sports-comments', 337),
+      (339, 'cricket', 337),
+      (340, 'rugby-union', 337),
+      (341, 'news', 336),
+      (342, 'lifestyle', 336),
+      (343, 'opinion', 336),
+      (344, 'waikato-times', null),
+      (345, 'sport', 344),
+      (346, 'business', 344),
+      (347, 'news', 344),
+      (348, 'hamiltons-150th', 347),
+      (349, 'franklin-county-news', 347),
+      (350, 'hauraki-herald', 347),
+      (351, 'piako-post', 347),
+      (352, 'matamata-chronicle', 347),
+      (353, 'cambridge-edition', 347),
+      (354, 'north-waikato-news', 347),
+      (355, 'rotorua-review', 347),
+      (356, 'ruapehu-press', 347),
+      (357, 'taupo-times', 347),
+      (358, 'hamilton-press', 347),
+      (359, 'south-waikato-news', 347),
+      (360, 'opinion', 344),
+      (361, 'life-style', 344),
+      (362, 'promotions', 344),
+      (363, 'nelson-mail', null),
+      (364, 'sport', 363),
+      (365, 'lifestyle-entertainment', 363),
+      (366, 'opinion', 363),
+      (367, 'news', 363),
+      (368, 'nelson-rescue-helicopter', 367),
+      (369, 'close-to-home', 367),
+      (370, 'wasp-wipeout', 367),
+      (371, 'our-people', 363),
+      (372, 'rugby', 363),
+      (373, 'information', 363),
+      (374, 'promotions', 363),
+      (375, 'arts-festival', 363),
+      (376, 'mountain-biking', 363),
+      (377, 'marlborough-express', null),
+      (378, 'sport', 377),
+      (379, 'rugby', 378),
+      (380, 'opinion', 377),
+      (381, 'news', 377),
+      (382, 'marlborough-rescue-helicopter', 381),
+      (383, 'business', 377),
+      (384, 'your-marlborough', 377),
+      (385, 'diary', 384),
+      (386, 'competitions', 384),
+      (387, 'discover-the-south', 377),
+      (388, 'information', 377),
+      (389, 'contact-us', 377),
+      (390, '150th-anniversary', 377),
+      (391, 'promotions', 377),
+      (392, 'the-press', null),
+      (393, 'sport', 392),
+      (394, 'crusaders', 393),
+      (395, 'youth-sport', 393),
+      (396, 'news', 393),
+      (397, 'news', 392),
+      (398, 'christchurch-earthquake-2011', 397),
+      (399, 'north-canterbury', 397),
+      (400, 'mid-canterbury-selwyn', 397),
+      (401, 'west-coast', 397),
+      (402, 'christchurch-life', 392),
+      (403, 'eat-and-drink', 402),
+      (404, 'reviews', 403),
+      (405, 'cafe-chat', 403),
+      (406, 'dress', 402),
+      (407, 'art-and-stage', 402),
+      (408, 'christchurch-music', 407),
+      (409, 'visual-art', 407),
+      (410, 'theatre', 407),
+      (411, 'avenues', 402),
+      (412, 'eat', 411),
+      (413, 'drink', 411),
+      (414, 'fashion-beauty', 411),
+      (415, 'home', 411),
+      (416, 'play', 411),
+      (417, 'features', 411),
+      (418, 'recipes', 411),
+      (419, 'freeze-out', 402),
+      (420, 'summer-starter', 402),
+      (421, 'a-great-place-to-be', 402),
+      (422, 'business', 392),
+      (423, 'your-property', 422),
+      (424, 'the-rebuild', 422),
+      (425, 'opinion', 392),
+      (426, 'promotions', 392),
+      (427, 'run-to-remember', 392),
+      (428, 'timaru-herald', null),
+      (429, 'sport', 428),
+      (430, 'news', 428),
+      (431, 'opinion', 428),
+      (432, 'life', 428),
+      (433, 'timaru-herald-150th', 428),
+      (434, 'information', 428),
+      (435, 'southland-times', null),
+      (436, 'sport', 435),
+      (437, 'business', 435),
+      (438, 'culture', 435),
+      (439, 'in-the-south', 438),
+      (440, 'reviews', 438),
+      (441, 'opinion', 435),
+      (442, 'news', 435),
+      (443, 'features', 442),
+      (444, 'obituaries', 442),
+      (445, 'information', 435),
+      (446, 'auckland', null),
+      (447, 'local-news', 446),
+      (448, 'northland', 447),
+      (449, 'whangarei-leader', 448),
+      (450, 'latest-edition', 449),
+      (451, 'northern-news', 448),
+      (452, 'bay-chronicle', 448),
+      (453, 'dargaville-districts', 448),
+      (454, 'manukau-courier', 447),
+      (455, 'rodney-times', 447),
+      (456, 'eastern-courier', 447),
+      (457, 'papakura-courier', 447),
+      (458, 'east-bays-courier', 447),
+      (459, 'auckland-city-harbour-news', 447),
+      (460, 'central-leader', 447),
+      (461, 'north-shore-times', 447),
+      (462, 'north-harbour-news', 447),
+      (463, 'western-leader', 447),
+      (464, 'nor-west-news', 447),
+      (465, 'waiheke-marketplace', 447),
+      (466, 'sport', 446),
+      (467, 'auckland-faces', 446),
+      (468, 'auckland-top-stories', 446),
+      (469, 'ipad-editors-picks', null),
+      (470, 'stuff-homepage', null),
+      (471, 'video', null),
+      (472, 'competitions', null),
+      (473, 'facebook-instant-articles', null),
+      (474, 'subscriber-information', null),
+      (475, 'beta', null),
+      (476, 'sponsored-content', null),
+      (477, 'sunday-star-times', null),
+      (478, 'promotions', 477),
+      (479, 'about-stuff', null),
+      (480, 'sunday-news', null),
+      (481, 'promotions', 480),
+      (482, 'partner-content', null),
+      (483, 'banners', 482),
+      (484, 'neighbourly', null),
+      (485, 'christchurch-mail', 484),
+      (486, 'the-napier-mail', 484),
+      (487, 'the-hastings-mail', 484),
+      (488, 'the-tribune', 484),
+      (489, 'the-nelson-leader', 484),
+      (490, 'the-tasman-leader', 484),
+      (491, 'the-eye', 484),
+      (492, 'the-central-otago-mirror', 484),
+      (493, 'the-queenstown-mirror', 484),
+      (494, 'feilding-rangitikei-herald', 484),
+      (495, 'northern-outlook', 484),
+      (496, 'clutha-leader', 484),
+      (497, 'kaikoura-star', 484),
+      (498, 'south-canterbury-herald', 484),
+      (499, 'the-wanaka-mirror', 484),
+      (500, 'waitaki-herald', 484),
+      (501, 'newslink', 484),
+      (502, 'stuff-nation', null),
+      (503, 'assignments', 502),
+      (504, 'contribution', 503),
+      (505, 'otago', null),
+      (506, 'opinion', null),
+      (507, 'bay-of-plenty', null),
+      (508, 'authors', null),
+      (509, 'michelle-duff', 508),
+      (510, 'katie-kenny', 508),
+      (511, 'steve-kilgallon', 508),
+      (512, 'carmen-parahi', 508),
+      (513, 'dana-johannsen', 508),
+      (514, 'charlie-mitchell', 508),
+      (515, 'rebecca-stevenson', 508),
+      (516, 'Roeland-van-den-Bergh', 508),
+      (517, 'amanda-cropp', 508),
+      (518, 'tom-pullar-strecker', 508),
+      (519, 'catherine-harris', 508),
+      (520, 'chris-hutching', 508),
+      (521, 'anuja-nadkarni', 508),
+      (522, 'marta-steeman', 508),
+      (523, 'gerard-hutching', 508),
+      (524, 'esther-tauton', 508),
+      (525, 'heather-chalmers', 508),
+      (526, 'pat-deavoll', 508),
+      (527, 'rob-stock', 508),
+      (528, 'edward-gay', 508),
+      (529, 'patrick-crewdson', 508),
+      (530, 'john-hartevelt', 508),
+      (531, 'glenn-mcconnell', 508),
+      (532, 'aaron-goile', 508),
+      (533, 'philli-rollo', 508),
+      (534, 'mark-geenty', 508),
+      (535, 'olivia-caldwell', 508),
+      (536, 'brendon-egan', 508),
+      (537, 'robert-van-royen', 508),
+      (538, 'andre-voerman', 508),
+      (539, 'marvin-france', 508),
+      (540, 'joseph-pearson', 508),
+      (541, 'david-long', 508),
+      (542, 'paul-cully', 508),
+      (543, 'liam-hyslop', 508),
+      (544, 'greg-tourelle', 508),
+      (545, 'tony-smith', 508),
+      (546, 'ian-anderson', 508),
+      (547, 'mat-kermeen', 508),
+      (548, 'phil-hamilton', 508),
+      (549, 'kevin-norquay', 508),
+      (550, 'tarana', null),
+      (551, 'interactives', null),
+      (552, 'sugar-tax', 551),
+      (553, 'northland', null),
+      (554, 'whangarei-leader', 553),
+      (555, 'latest-edition', 554),
+      (556, 'northern-news', 553),
+      (557, 'bay-chronicle', 553),
+      (558, 'dargaville-districts', 553),
+      (559, 'beaches', 553),
+      (560, 'stuff-alexa', null);
+    </sql>
+  </changeSet>
+
+
+  <changeSet id="7" author="chao.yang">
+    <createTable tableName="author">
+      <column name="email" type="varchar">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="name" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <sql>
+      INSERT INTO author (email, name) VALUES
+      ('latashastrickland@elita.com', 'Latasha Strickland'),
+      ('tashawalton@elita.com', 'Tasha Walton'),
+      ('wrightpreston@elita.com', 'Wright Preston'),
+      ('wileymassey@elita.com', 'Wiley Massey'),
+      ('mayrawarren@elita.com', 'Mayra Warren'),
+      ('trudyunderwood@elita.com', 'Trudy Underwood'),
+      ('veronicahaney@elita.com', 'Veronica Haney'),
+      ('serranopetty@elita.com', 'Serrano Petty');
+    </sql>
+  </changeSet>
+
+  <changeSet id="8" author="chao.yang">
+    <createTable tableName="asset">
+      <column name="id" type="bigint">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="type" type="varchar" />
+      <column name="sub_type" type="varchar" />
+      <column name="headline" type="varchar"/>
+      <column name="section_headline" type="varchar" />
+      <column name="section_intro" type="varchar" />
+      <column name="primary_topic" type="varchar" />
+      <column name="secondary_topics" type="varchar() []" />
+      <column name="source" type="varchar" />
+      <column name="flags" type="varchar() []" />
+      <column name="ad_exclusions" type="varchar() []" />
+      <column name="authors" type="varchar() []" />
+      <column name="other_contributors" type="varchar" />
+      <column name="open_to_comment" type="boolean" />
+      <column name="exclude_from_seo" type="boolean" />
+      <column name="created_by" type="varchar"/>
+      <column name="created_at" type="timestamptz"/>
+      <column name="last_updated" type="timestamptz"/>
+      <column name="last_published" type="timestamptz"/>
+      <column name="locked_by" type="varchar" />
+      <column name="status" type="varchar" />
+    </createTable>
+
+    <createSequence sequenceName="seq_asset_id"
+                    cycle="false"
+                    incrementBy="1"
+                    startValue="1"/>
+
+    <addDefaultValue columnName="id"
+                     defaultValueSequenceNext="seq_asset_id"
+                     tableName="asset"/>
+  </changeSet>
+
+  <changeSet id="9" author="chao.yang">
+    <createTable tableName="asset_external_properties">
+      <column name="asset_id" type="bigint">
+        <constraints nullable="false" primaryKey="true" foreignKeyName="fk_asset_external_properties__asset_id" references="asset(id)"/>
+      </column>
+      <column name="asset_cms_source" type="varchar"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="10" author="chao.yang">
+    <createTable tableName="note">
+      <column name="id" type="bigint">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="asset_id" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_note__asset_id" deleteCascade="true" references="asset(id)"/>
+      </column>
+      <column name="author" type="varchar"/>
+      <column name="type" type="varchar"/>
+      <column name="message" type="varchar"/>
+      <column name="last_updated" type="timestamptz"/>
+    </createTable>
+
+    <createSequence sequenceName="seq_note_id"
+                    cycle="false"
+                    incrementBy="1"
+                    startValue="1"/>
+
+    <addDefaultValue columnName="id"
+                     defaultValueSequenceNext="seq_note_id"
+                     tableName="note"/>
+  </changeSet>
+
+  <changeSet id="11" author="chao.yang">
+    <createTable tableName="asset_transition">
+      <column name="id" type="bigint">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="asset_id" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_asset_transition__asset_id" references="asset(id)"/>
+      </column>
+      <column name="changed_by" type="varchar"/>
+      <column name="status" type="varchar"/>
+      <column name="last_updated" type="timestamptz"/>
+      <column name="snapshot" type="jsonb"/>
+    </createTable>
+
+    <createSequence sequenceName="seq_asset_transition_id"
+                    cycle="false"
+                    incrementBy="1"
+                    startValue="1"/>
+
+    <addDefaultValue columnName="id"
+                     defaultValueSequenceNext="seq_asset_transition_id"
+                     tableName="asset_transition"/>
+  </changeSet>
+
+  <changeSet id="12" author="chao.yang">
+    <createTable tableName="image">
+      <column name="id" type="int">
+        <constraints primaryKey="true" nullable="false" foreignKeyName="fk_image__asset_id"
+                     references="asset(id)"/>
+      </column>
+      <column name="uri" type="varchar"/>
+      <column name="description" type="varchar"/>
+      <column name="newslink_id" type="varchar"/>
+      <column name="alt_text" type="varchar"/>
+      <column name="focal_point_x" type="int"/>
+      <column name="focal_point_y" type="int"/>
+      <column name="focal_radius" type="int"/>
+      <column name="width" type="int"/>
+      <column name="height" type="int"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="13" author="chao.yang">
+    <createTable tableName="story">
+      <column name="id" type="bigint">
+        <constraints primaryKey="true" nullable="false" foreignKeyName="fk_story__asset_id"
+                     references="asset(id)"/>
+      </column>
+      <column name="body_text" type="varchar"/>
+      <column name="print_slug" type="varchar"/>
+      <column name="thumbnail_image_id" type="bigint">
+        <constraints nullable="true" foreignKeyName="fk_story__image_asset_id"
+                     references="image(id)"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="14" author="chao.yang">
+    <createTable tableName="fragment">
+      <column name="story_id" type="bigint">
+        <constraints primaryKey="true"
+                     nullable="false"
+                     foreignKeyName="fk_fragment__story_id"
+                     references="story(id)"
+                     deleteCascade="true"/>
+      </column>
+      <column name="index" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="type" type="varchar"/>
+      <column name="embedded_asset_id" type="bigint">
+        <constraints nullable="true"
+                     foreignKeyName="fk_fragment__asset_id"
+                     deleteCascade="true"
+                     references="asset(id)"/>
+      </column>
+      <column name="text_nodes" type="jsonb"/>
+      <column name="caption_override" type="varchar" />
+    </createTable>
+  </changeSet>
+
+  <changeSet id="15" author="chao.yang">
+    <createTable tableName="related_link">
+      <column name="story_id" type="bigint">
+        <constraints primaryKey="true" nullable="false" foreignKeyName="fk_related_link__story_asset_id" deleteCascade="false"
+                     references="story(id)"/>
+      </column>
+      <column name="index" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="description" type="varchar"/>
+      <column name="url" type="varchar"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="16" author="chao.yang">
+    <createTable tableName="widget">
+      <column name="id" type="int">
+        <constraints primaryKey="true" nullable="false" foreignKeyName="fk_widget__id_asset_id"
+                     references="asset(id)"/>
+      </column>
+      <column name="description" type="varchar"/>
+      <column name="body" type="varchar"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="17" author="chao.yang">
+    <sql>
+      CREATE INDEX idx_asset_last_updated ON asset (last_updated);
+
+      -- add a tsvector column
+      ALTER TABLE story ADD COLUMN text_searchable tsvector;
+      ALTER TABLE image ADD COLUMN text_searchable tsvector;
+      ALTER TABLE widget ADD COLUMN text_searchable tsvector;
+      ALTER TABLE note ADD COLUMN text_searchable tsvector;
+
+      -- create GIN index
+      CREATE INDEX idx_story_text_searchable ON story USING GIN (text_searchable);
+      CREATE INDEX idx_image_text_searchable ON image USING GIN (text_searchable);
+      CREATE INDEX idx_note_text_searchable ON note USING GIN (text_searchable);
+    </sql>
+  </changeSet>
+
+  <changeSet id="18" author="chao.yang">
+    <sql>
+        -- create a view to collect story body text
+        CREATE OR REPLACE VIEW
+        v_story_body_text AS
+        WITH RECURSIVE body_text
+        (
+            story_id,
+            index,
+            json_element
+        ) AS
+        (
+            -- non recursive term
+            SELECT
+               story_id,
+               index,
+               CASE WHEN fragment.type = 'TEXT' THEN
+                  fragment.text_nodes::jsonb
+               ELSE
+                  to_jsonb(fragment.caption_override)
+               END AS json_element
+            FROM
+                fragment
+            WHERE
+                fragment.text_nodes IS NOT NULL
+            OR  fragment.caption_override IS NOT NULL
+
+            UNION
+            -- recursive term
+            SELECT
+                story_id,
+                index,
+                value as json_element
+            FROM
+                body_text a,
+                jsonb_array_elements(a.json_element -> 'content')
+            WHERE jsonb_exists(a.json_element, 'content')
+        )
+        SELECT
+            story_id AS id,
+            string_agg(json_element #>> '{}', ' ' ORDER BY index) AS body_text
+        FROM body_text
+        WHERE jsonb_typeof(json_element) = 'string'
+        GROUP BY story_id;
+
+
+        -- create a view to collect texts from independent asset properties: authors, flags etc
+        CREATE OR REPLACE VIEW v_asset_properties_text AS
+        SELECT
+          a.id,
+          COALESCE(a.section_headline,'') || ' ' ||
+          COALESCE(a.section_intro,'') || ' ' ||
+          COALESCE(a.other_contributors,'') || ' ' ||
+          COALESCE(aau.authors,'')
+          AS properties_text
+        FROM
+          asset a
+        LEFT JOIN
+          (
+            SELECT
+              aa.id AS asset_id,
+              string_agg(
+                  COALESCE(au.email, '') || ' ' ||
+                  substring(COALESCE(au.email, '') from '(.*)@') || ' ' ||
+                  COALESCE(au.name, ''), ' ') as authors
+            FROM
+              asset aa
+            LEFT JOIN
+              author au
+            ON
+              (
+                au.email = ANY( aa.authors )
+              )
+            GROUP BY aa.id
+          ) aau
+        ON (a.id = aau.asset_id)
+    </sql>
+
+    <createProcedure>
+      -- stored procedure
+      CREATE OR REPLACE FUNCTION func_update_story_text_searchable(story_id BIGINT = NULL) RETURNS BOOLEAN
+      AS $$
+      BEGIN
+          UPDATE
+              story
+          SET
+              text_searchable = to_tsvector('english',
+                  COALESCE(a.headline,'') || ' ' ||
+                  COALESCE(a.created_by,'') || ' ' ||
+                  COALESCE(vapt.properties_text, '') || ' ' ||
+                  COALESCE(print_slug,'') || ' ' ||
+                  COALESCE (vsbt.body_text, '')
+              )
+          FROM
+              asset a
+              left join v_story_body_text AS vsbt on (vsbt.id = a.id)
+              left join v_asset_properties_text AS vapt on (vapt.id = a.id)
+          WHERE
+              (story_id IS NULL OR story.id = story_id)
+          AND
+              a.id = story.id;
+          RETURN TRUE;
+      END;
+      $$ LANGUAGE plpgsql;
+    </createProcedure>
+
+    <sql>
+        -- calculate text_searchable for existing stories
+        SELECT func_update_story_text_searchable();
+    </sql>
+
+    <createProcedure>
+        -- stored procedure
+        CREATE OR REPLACE FUNCTION func_update_image_text_searchable(image_id BIGINT = NULL) RETURNS BOOLEAN
+        AS $$
+        BEGIN
+            UPDATE
+                image
+            SET
+                text_searchable = to_tsvector('english',
+                    COALESCE(a.headline,'') || ' ' ||
+                    COALESCE(a.created_by,'') || ' ' ||
+                    COALESCE(vapt.properties_text, '') || ' ' ||
+                    COALESCE(description,'') || ' ' ||
+                    COALESCE (newslink_id, '') || ' ' ||
+                    COALESCE (alt_text, '')
+                )
+            FROM
+                asset a
+                left join v_asset_properties_text AS vapt on (vapt.id = a.id)
+            WHERE
+                (image_id IS NULL OR image.id = image_id)
+            AND
+                a.id = image.id;
+            RETURN TRUE;
+        END;
+        $$ LANGUAGE plpgsql;
+    </createProcedure>
+
+    <sql>
+        -- calculate text_searchable for existing images
+        SELECT func_update_image_text_searchable();
+    </sql>
+
+    <createProcedure>
+        -- stored procedure
+        CREATE OR REPLACE FUNCTION func_update_widget_text_searchable(widget_id BIGINT = NULL) RETURNS BOOLEAN
+        AS $$
+        BEGIN
+            UPDATE
+                widget
+            SET
+                text_searchable = to_tsvector('english',
+                    COALESCE(a.headline,'') || ' ' ||
+                    COALESCE(a.created_by,'') || ' ' ||
+                    COALESCE(vapt.properties_text, '') || ' ' ||
+                    COALESCE(description,'')
+                )
+            FROM
+                asset a
+                left join v_asset_properties_text AS vapt on (vapt.id = a.id)
+            WHERE
+                (widget_id IS NULL OR widget.id = widget_id)
+            AND
+                a.id = widget.id;
+            RETURN TRUE;
+        END;
+        $$ LANGUAGE plpgsql;
+    </createProcedure>
+
+    <sql>
+        -- calculate text_searchable for existing widgets
+        SELECT func_update_widget_text_searchable();
+    </sql>
+
+    <createProcedure>
+        -- stored procedure
+        CREATE OR REPLACE FUNCTION func_update_note_text_searchable(note_id BIGINT = NULL) RETURNS BOOLEAN
+        AS $$
+        BEGIN
+            UPDATE
+                note
+            SET
+                text_searchable = to_tsvector('english',
+                    COALESCE(author,'') || ' ' ||
+                    substring(COALESCE(author, '') from '(.*)@') || ' ' ||
+                    COALESCE (message, '')
+                )
+            WHERE
+                (note_id IS NULL OR note.id = note_id);
+            RETURN TRUE;
+        END;
+        $$ LANGUAGE plpgsql;
+    </createProcedure>
+
+    <sql>
+        -- calculate text_searchable for existing notes
+        SELECT func_update_note_text_searchable();
+    </sql>
+
+  </changeSet>
+
+
+</databaseChangeLog>
