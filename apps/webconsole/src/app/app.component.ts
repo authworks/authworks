@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Message } from '@authworks/api-interfaces';
+import { Message } from '@authworks/common';
 
 @Component({
   selector: 'authworks-root',

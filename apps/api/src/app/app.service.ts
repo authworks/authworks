@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Message } from '@authworks/api-interfaces';
+import { Message } from '@authworks/common';
 
 @Injectable()
 export class AppService {

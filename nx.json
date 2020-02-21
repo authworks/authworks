@@ -11,17 +11,17 @@
     "nx.json": "*"
   },
   "projects": {
-    "authworks": {
+    "webconsole": {
       "tags": []
     },
-    "authworks-e2e": {
+    "webconsole-e2e": {
       "tags": [],
-      "implicitDependencies": ["authworks"]
+      "implicitDependencies": ["webconsole"]
     },
     "api": {
       "tags": []
     },
-    "api-interfaces": {
+    "common": {
       "tags": []
     }
   }

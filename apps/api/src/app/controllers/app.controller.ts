@@ -1,8 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { Message } from '@authworks/api-interfaces';
+import { Message } from '@authworks/common';
 
-import { AppService } from './app.service';
+import { AppService } from '../app.service';
 
 @Controller()
 export class AppController {

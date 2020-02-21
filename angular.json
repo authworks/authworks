@@ -1,39 +1,39 @@
 {
   "version": 1,
   "projects": {
-    "authworks": {
+    "webconsole": {
       "projectType": "application",
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
         }
       },
-      "root": "apps/authworks",
-      "sourceRoot": "apps/authworks/src",
-      "prefix": "authworks",
+      "root": "apps/webconsole",
+      "sourceRoot": "apps/webconsole/src",
+      "prefix": "webconsole",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/authworks",
-            "index": "apps/authworks/src/index.html",
-            "main": "apps/authworks/src/main.ts",
-            "polyfills": "apps/authworks/src/polyfills.ts",
-            "tsConfig": "apps/authworks/tsconfig.app.json",
+            "outputPath": "dist/apps/webconsole",
+            "index": "apps/webconsole/src/index.html",
+            "main": "apps/webconsole/src/main.ts",
+            "polyfills": "apps/webconsole/src/polyfills.ts",
+            "tsConfig": "apps/webconsole/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "apps/authworks/src/favicon.ico",
-              "apps/authworks/src/assets"
+              "apps/webconsole/src/favicon.ico",
+              "apps/webconsole/src/assets"
             ],
-            "styles": ["apps/authworks/src/styles.scss"],
+            "styles": ["apps/webconsole/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/authworks/src/environments/environment.ts",
-                  "with": "apps/authworks/src/environments/environment.prod.ts"
+                  "replace": "apps/webconsole/src/environments/environment.ts",
+                  "with": "apps/webconsole/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -62,65 +62,65 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "authworks:build",
-            "proxyConfig": "apps/authworks/proxy.conf.json"
+            "browserTarget": "webconsole:build",
+            "proxyConfig": "apps/webconsole/proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "authworks:build:production"
+              "browserTarget": "webconsole:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "authworks:build"
+            "browserTarget": "webconsole:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "apps/authworks/tsconfig.app.json",
-              "apps/authworks/tsconfig.spec.json"
+              "apps/webconsole/tsconfig.app.json",
+              "apps/webconsole/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/authworks/**"]
+            "exclude": ["**/node_modules/**", "!apps/webconsole/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/authworks/jest.config.js",
-            "tsConfig": "apps/authworks/tsconfig.spec.json",
+            "jestConfig": "apps/webconsole/jest.config.js",
+            "tsConfig": "apps/webconsole/tsconfig.spec.json",
             "passWithNoTests": true,
-            "setupFile": "apps/authworks/src/test-setup.ts"
+            "setupFile": "apps/webconsole/src/test-setup.ts"
           }
         }
       }
     },
-    "authworks-e2e": {
-      "root": "apps/authworks-e2e",
-      "sourceRoot": "apps/authworks-e2e/src",
+    "webconsole-e2e": {
+      "root": "apps/webconsole-e2e",
+      "sourceRoot": "apps/webconsole-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/authworks-e2e/cypress.json",
-            "tsConfig": "apps/authworks-e2e/tsconfig.e2e.json",
-            "devServerTarget": "authworks:serve"
+            "cypressConfig": "apps/webconsole-e2e/cypress.json",
+            "tsConfig": "apps/webconsole-e2e/tsconfig.e2e.json",
+            "devServerTarget": "webconsole:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "authworks:serve:production"
+              "devServerTarget": "webconsole:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/authworks-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/authworks-e2e/**"]
+            "tsConfig": ["apps/webconsole-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/webconsole-e2e/**"]
           }
         }
       }
@@ -180,9 +180,9 @@
         }
       }
     },
-    "api-interfaces": {
-      "root": "libs/api-interfaces",
-      "sourceRoot": "libs/api-interfaces/src",
+    "common": {
+      "root": "libs/common",
+      "sourceRoot": "libs/common/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -190,17 +190,17 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/api-interfaces/tsconfig.lib.json",
-              "libs/api-interfaces/tsconfig.spec.json"
+              "libs/common/tsconfig.lib.json",
+              "libs/common/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**"]
+            "exclude": ["**/node_modules/**", "!libs/common/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/api-interfaces/jest.config.js",
-            "tsConfig": "libs/api-interfaces/tsconfig.spec.json",
+            "jestConfig": "libs/common/jest.config.js",
+            "tsConfig": "libs/common/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -219,5 +219,5 @@
       "unitTestRunner": "jest"
     }
   },
-  "defaultProject": "authworks"
+  "defaultProject": "webconsole"
 }
