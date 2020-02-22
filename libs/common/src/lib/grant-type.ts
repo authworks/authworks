@@ -1,4 +1,4 @@
-export enum GrantTypes {
+export enum GrantType {
   AUTHORIZATION_CODE = 'authorization_code',
   IMPLICIT = 'implicit',
   PASSWORD = 'password',

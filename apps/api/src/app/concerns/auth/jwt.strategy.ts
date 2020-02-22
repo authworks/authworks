@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       console.log(
         '\x1b[35m%s\x1b[0m',
         `${AUTH_HEADER}: Bearer ${jwt.sign({
-          sub: 'Stuff',
+          sub: 'Authworks',
           name: 'Dev',
           iat: moment().unix(),
         })}`,
@@ -28,14 +28,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: JwtPayload): User {
-    return { name: payload.name };
+    return { name: payload.sub };
   }
 }
 
 export interface JwtPayload {
-  sub: 'Stuff';
-  name: 'NewsLink' | 'ContentPartners';
+  iss: 'Authworks';
+  sub: string; // principal -> user
+  aud: string; // resource server
   iat: string;
+  exp: string;
 }
 
 export interface User {
